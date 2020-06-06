@@ -58,22 +58,22 @@ npm install
 ```
 
 ## AWS Credentials
-Copy the configuration details and add your AWS creds.
 
-** please take care and don't commit your creds back to git **
-```
-cd config
-cp aws-config-sample.json aws-config.json
-```
+Use the following environment variables to configure your AWS creds
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_DEFAULT_REGION
+
+Reference: [AWS SDK docs](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)
 
 ## Overrride Amazon SNS/SQS endpoints
 
-If you need to route your request to a proxy, or want to route SQS/SNS requests to a local pseudo AWS service (e.g. goaws or localStack) you can override endopoints by creating a aws-override.json config file:
-```
-cd config
-cp aws-override-sample.json aws-override.json
-```
-and edit the endpoints
+If you need to route your request to a proxy, or want to route SQS/SNS requests to a local pseudo AWS service (e.g. goaws or localStack) you can override endopoints by using the following environment variables:
+
+- SNS_ENDPOINT
+- SQS_ENDPOINT
+
+e.g. `SNS_ENDPOINT=http://localstack:4575`
 
 
 For IAM user, add group policy = AmazonSQSFullAccess, AmazonSNSFullAccess 
