@@ -97,4 +97,16 @@ goaws and localstack links:
 https://github.com/p4tin/goaws
 https://github.com/localstack/localstack
 
+## Running in Docker
 
+Build with Docker:
+
+```
+docker build -t aws-sqs-sns-client .
+```
+
+Run the application configured to use localStack:
+
+```
+docker run -e AWS_ACCESS_KEY_ID=xxx -e AWS_SECRET_ACCESS_KEY=xxx -e AWS_DEFAULT_REGION=eu-north-1 -e SNS_ENDPOINT=http://localhost:4575 -e SQS_ENDPOINT=http://localhost:4576 -p 3000:3000 aws-sqs-sns-client
+```
