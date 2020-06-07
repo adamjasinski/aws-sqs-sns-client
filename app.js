@@ -5,33 +5,21 @@ var aws      = require('aws-sdk');
 var fs       = require('fs');
 var app      = express();
 
+//By default, AWS SDK will read environment variables to configure AWS credentials.
 
-// load aws config
-aws.config.loadFromPath(__dirname + '/config/aws-config.json')
+//Optional - override default SNS/SQS endpoints
+var sns_endpoint_override = process.env.SNS_ENDPOINT;
+var sqs_endpoint_override = process.env.SQS_ENDPOINT;
 
-// load and override endpoints (if config file exists)
-var configFile = null
-try {
-    configFile = fs.readFileSync(__dirname + '/config/aws-override.json','utf8');
-} catch (err) {
-    if (err.code === 'ENOENT') {
-        console.log("No local AWS endpoint config found, using dafault routing to AWS")
-    } else {
-        throw(err)
-    }
+if(!!sns_endpoint_override){
+    console.log('Overriding AWS SNS endpoint to:', sns_endpoint_override)
+    aws.config.sns = { 'endpoint': sns_endpoint_override }
 }
 
-// if found, parse override config
-if (configFile) {
-            overrides = JSON.parse(configFile)
-            
-            console.log('Overriding AWS SQS endpoint to:', overrides.sqs_endpoint)
-            console.log('Overriding AWS SNS endpoint to:', overrides.sns_endpoint)
-    
-            aws.config.sqs = { 'endpoint': overrides.sqs_endpoint }
-            aws.config.sns = { 'endpoint': overrides.sns_endpoint }
+if(!!sqs_endpoint_override){
+    console.log('Overriding AWS SQS endpoint to:', sqs_endpoint_override)
+    aws.config.sqs = { 'endpoint': sqs_endpoint_override }
 }
-        
 
 // this is the main object for holding all the UI data rendered in ejs templates
 // date for the various UI menu items is held in the 'data' array.

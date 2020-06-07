@@ -8,9 +8,6 @@ module.exports = function (aws, app,ui) {
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-    // load aws config
-    aws.config.loadFromPath(__dirname + '/../config/aws-config.json')
-
     // create the sqs service object
     var sqs = new aws.SQS()
     
